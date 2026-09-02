@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Databricks × Pathé · Programme</title>
+<meta name="description" content="Programme d'événements Databricks de l'automne, organisé par profil pour les équipes de Pathé : Jean-Christophe Désire, Guerric Tessier, Timothée Real.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Charte Databricks sobre : navy signature #1B3139 en accent + Oat, rouge en micro-signal */
+    --navy:#1B3139; --ink:#1B3139; --muted:#5A6E74; --soft:#3D5259;
+    --green:#1B3139; --green-dark:#0F2025; --green-tint:#EDF1F1;
+    --bg:#FFFFFF; --soft-bg:#F9F7F4; --line:#E7E2D9;
+    --red:#FF3621;
+    --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.6}
+  #bar{position:fixed;top:0;left:0;height:3px;background:var(--green);width:0;z-index:60;transition:width .1s linear}
+  header{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:14px clamp(18px,5vw,60px);background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .lockup{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--navy)}
+  .wm{font-size:clamp(15px,1.7vw,19px);letter-spacing:-.02em;display:flex;align-items:center;gap:7px}
+  .wm .sq{width:12px;height:12px;background:var(--red);border-radius:2px;display:inline-block}
+  .dblogo{height:clamp(18px,2vw,24px);width:auto;display:block}
+  .cross{color:var(--muted);font-weight:500;font-size:clamp(14px,1.6vw,18px)}
+  .pathe{font-weight:800;letter-spacing:.02em;color:var(--navy);font-size:clamp(15px,1.7vw,19px)}
+  .navcta{background:var(--green);color:#fff;padding:10px 18px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;transition:.2s}
+  .navcta:hover{background:var(--green-dark)}
+  section{padding:clamp(52px,8vh,92px) clamp(20px,6vw,80px);max-width:1080px;margin:0 auto;position:relative}
+  .kicker{display:inline-flex;align-items:center;gap:10px;color:var(--green-dark);font-weight:700;letter-spacing:.16em;font-size:12px;text-transform:uppercase;margin-bottom:16px}
+  .kicker::before{content:"";width:24px;height:2px;background:var(--green)}
+  h1{font-size:clamp(30px,5vw,56px);font-weight:800;line-height:1.07;letter-spacing:-.025em}
+  h1 .g{color:#8FB8C2}
+  h2{font-size:clamp(24px,3.2vw,38px);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--navy)}
+  .lead{font-size:clamp(16px,1.9vw,21px);font-weight:300;max-width:60ch;line-height:1.55}
+  .rv{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+  .rv.in{opacity:1;transform:none}
+  .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+  /* HERO */
+  #hero{max-width:none;min-height:74vh;display:flex;flex-direction:column;justify-content:center;color:#fff;padding-top:120px;
+    background:radial-gradient(900px 600px at 85% -10%,rgba(120,170,185,.22),transparent 60%),linear-gradient(150deg,#12242A 0%,#1B3139 55%,#274550 100%)}
+  #hero .inner{max-width:1080px;margin:0 auto;width:100%}
+  .rule{width:56px;height:3px;background:#8FB8C2;margin-bottom:24px}
+  #hero h1{margin-bottom:22px;max-width:22ch}
+  #hero .lead{color:rgba(255,255,255,.9);margin-bottom:30px}
+  #hero .lead b{color:#fff;font-weight:600}
+  .seatnote{display:inline-flex;align-items:center;gap:9px;background:rgba(255,54,33,.15);border:1px solid rgba(255,54,33,.5);color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600}
+  .seatnote .dot{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 8px 2px rgba(255,54,33,.6)}
+
+  /* PARCOURS NAV */
+  #map{background:var(--soft-bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .people{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}
+  @media(max-width:920px){.people{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.people{grid-template-columns:1fr}}
+  .pcard{display:flex;flex-direction:column;gap:6px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;text-decoration:none;color:inherit;transition:.2s}
+  .pcard:hover{border-color:var(--green);box-shadow:0 12px 30px rgba(14,36,56,.09);transform:translateY(-2px)}
+  .pcard .pinit{width:44px;height:44px;border-radius:50%;background:var(--green-tint);border:1px solid rgba(27,49,57,.16);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--green-dark);font-size:16px;margin-bottom:6px}
+  .pcard .idx{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
+  .pcard .pn{font-weight:800;font-size:18px;color:var(--navy)}
+  .pcard .pr{font-size:13.5px;color:var(--muted);font-weight:500}
+  .pcard .pgo{margin-top:8px;font-size:13px;font-weight:700;color:var(--green)}
+
+  /* PARCOURS SECTIONS */
+  .parcours{scroll-margin-top:90px}
+  .parcours:nth-of-type(even){background:var(--soft-bg)}
+  .phead{display:flex;align-items:center;gap:18px}
+  .phead .num{flex:none;width:54px;height:54px;border-radius:14px;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px}
+  .phead .idx{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:4px}
+  .phead .pr{font-size:14px;font-weight:600;color:var(--soft);margin-top:4px}
+
+  /* EVENTS */
+  .evlist{display:flex;flex-direction:column;gap:18px;margin-top:26px}
+  .ev{background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(22px,3vw,30px);display:grid;grid-template-columns:120px 1fr;gap:clamp(18px,3vw,32px);box-shadow:0 2px 12px rgba(14,36,56,.05);transition:.2s}
+  .ev:hover{border-color:var(--green);box-shadow:0 12px 30px rgba(14,36,56,.09)}
+  @media(max-width:680px){.ev{grid-template-columns:1fr}}
+  .evdatebox{background:var(--green-tint);border:1px solid rgba(27,49,57,.16);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 8px;height:fit-content}
+  .evdatebox .dnum{font-size:34px;font-weight:800;color:var(--green-dark);line-height:1}
+  .evdatebox .dmon{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--green);margin-top:3px}
+  .evtags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .tag{font-size:11.5px;font-weight:700;padding:4px 11px;border-radius:999px;background:var(--green-tint);color:var(--green-dark)}
+  .tag.limited{background:rgba(255,54,33,.1);color:#c0281a;border:1px solid rgba(255,54,33,.35);display:inline-flex;align-items:center;gap:6px}
+  .tag.limited::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red)}
+  .ev h3{font-size:clamp(18px,2.1vw,24px);font-weight:800;color:var(--navy);margin-bottom:10px;line-height:1.2}
+  .evwhat{color:var(--soft);font-size:clamp(14px,1.5vw,16px);line-height:1.6;margin-bottom:16px}
+  .evwhat b{color:var(--navy);font-weight:600}
+  .evmeta{display:flex;flex-wrap:wrap;gap:8px 22px;margin-bottom:18px}
+  .evmeta div{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink)}
+  .evmeta svg{width:16px;height:16px;stroke:var(--green);stroke-width:1.7;fill:none;flex:none}
+  .evmeta b{font-weight:600}
+  .evcta{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;text-decoration:none;padding:11px 20px;border-radius:9px;font-weight:600;font-size:14px;transition:.2s}
+  .evcta:hover{background:var(--green-dark);transform:translateY(-1px)}
+
+  /* CONTACT */
+  #echange{max-width:none;color:#fff;text-align:center;background:radial-gradient(800px 500px at 80% 120%,rgba(120,170,185,.2),transparent 60%),linear-gradient(150deg,#12242A,#274550)}
+  #echange .inner{max-width:600px;margin:0 auto}
+  #echange h2{color:#fff}
+  #echange p.sub{color:rgba(255,255,255,.82);margin:14px auto 30px;font-size:clamp(15px,1.7vw,18px)}
+  .ccard{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:clamp(28px,3vw,40px);backdrop-filter:blur(6px)}
+  .tp{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#fff;margin-bottom:8px}
+  .avatar{width:76px;height:76px;border-radius:50%;background:var(--green);border:2px solid #8FB8C2;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:24px;color:#fff;margin:0 auto 12px}
+  .tpn{font-weight:700;font-size:17px}
+  .tpr{color:rgba(255,255,255,.7);font-size:13.5px;margin-top:2px}
+  .cbtn{display:inline-flex;align-items:center;gap:9px;background:#fff;color:var(--navy);text-decoration:none;padding:12px 24px;border-radius:10px;font-weight:700;font-size:15px;margin-top:18px;transition:.2s}
+  .cbtn:hover{transform:translateY(-2px)}
+  footer{text-align:center;padding:38px 20px 46px;color:var(--muted);font-size:12.5px;background:var(--bg);border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<header>
+  <div class="lockup">
+    <img class="dblogo" src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e4/Databricks_logo.svg/250px-Databricks_logo.svg.png" alt="Databricks" onerror="this.outerHTML='&lt;span class=&quot;wm&quot;&gt;&lt;span class=&quot;sq&quot;&gt;&lt;/span&gt;databricks&lt;/span&gt;'">
+    <span class="cross">×</span>
+    <span class="pathe">PATHÉ</span>
+  </div>
+  <a href="#echange" class="navcta">Réserver ma place</a>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="inner">
+    <div class="rule rv in"></div>
+    <div class="kicker rv in" style="color:#A9C7CE">Databricks × Pathé · Automne 2026</div>
+    <h1 class="rv in">Votre programme, <span class="g">par profil</span></h1>
+    <p class="lead rv in d1">Une sélection de rendez-vous Databricks de septembre et octobre&nbsp;: ateliers, hackathon, formations, webinars et cercle de dirigeants. À chacun son parcours&nbsp;— <b>Jean-Christophe, Guerric et Timothée</b>.</p>
+    <div class="rv in d2"><span class="seatnote"><span class="dot"></span> En amont de notre échange du 30 septembre — au plaisir de vous y retrouver</span></div>
+  </div>
+</section>
+
+<!-- PARCOURS NAV -->
+<section id="map">
+  <div class="kicker rv">Trois parcours</div>
+  <h2 class="rv">Votre parcours dédié</h2>
+  <div class="people">
+    <a class="pcard rv d1" href="#p1">
+      <span class="pinit">JC</span>
+      <span class="idx">Parcours 01</span>
+      <span class="pn">Jean-Christophe Désire</span>
+      <span class="pr">CIO — DSI</span>
+      <span class="pgo">2 rendez-vous →</span>
+    </a>
+    <a class="pcard rv d2" href="#p2">
+      <span class="pinit">GT</span>
+      <span class="idx">Parcours 02</span>
+      <span class="pn">Guerric Tessier</span>
+      <span class="pr">Directeur applicatif &amp; reporting métier</span>
+      <span class="pgo">3 rendez-vous →</span>
+    </a>
+    <a class="pcard rv d3" href="#p3">
+      <span class="pinit">TR</span>
+      <span class="idx">Parcours 03</span>
+      <span class="pn">Timothée Real</span>
+      <span class="pr">Data Manager</span>
+      <span class="pgo">2 rendez-vous →</span>
+    </a>
+    <a class="pcard rv d3" href="#p4">
+      <span class="pinit" style="font-size:13px;letter-spacing:.02em">DAF</span>
+      <span class="idx">Parcours 04</span>
+      <span class="pn">Pour votre CFO</span>
+      <span class="pr">Pour votre équipe finance</span>
+      <span class="pgo">1 rendez-vous →</span>
+    </a>
+  </div>
+</section>
+
+<!-- PARCOURS 01 — Jean-Christophe -->
+<section class="parcours" id="p1">
+  <div class="phead rv">
+    <div class="num">01</div>
+    <div>
+      <div class="idx">Parcours 01</div>
+      <h2>Jean-Christophe Désire</h2>
+      <div class="pr">CIO — DSI</div>
+    </div>
+  </div>
+  <div class="evlist">
+
+    <article class="ev rv d1">
+      <div class="evdatebox"><span class="dnum">06</span><span class="dmon">Oct.</span></div>
+      <div>
+        <div class="evtags"><span class="tag">Petit-déjeuner · cercle restreint</span><span class="tag">C-levels</span><span class="tag limited">Nombre de places réduit</span></div>
+        <h3>Data Foundations for Agentic AI</h3>
+        <p class="evwhat">Un <b>petit-déjeuner entre dirigeants</b> (AWS × Databricks × Cloud Combinator)&nbsp;: quelles fondations data mettre en place pour déployer une <b>IA agentique</b> fiable, gouvernée et à l'échelle&nbsp;? Discussion en cercle restreint, animée par nos experts.</p>
+        <div class="evmeta">
+          <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b>8h30 – 10h30</b></div>
+          <div><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Présentiel · lieu communiqué à l'inscription</div>
+          <div><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>C-levels (CDO · CTO · CIO)</div>
+        </div>
+        <a class="evcta" href="https://events.databricks.com/FY27Q2-SD-DataFoundationsforAgenticAI?q_mailing_2NPTiYK1umGFyHWUExvVrEbAjdLX2NxH1V8Y=RpUXSCUYGPJaDoT9LRZnf1GVFEtJrisrvK1JAgNFJbsCnuMLWzTjowztu" target="_blank" rel="noopener">Demander mon invitation →</a>
+      </div>
+    </article>
+
+    <article class="ev rv d1">
+      <div class="evdatebox"><span class="dnum">24</span><span class="dmon">Sept.</span></div>
+      <div>
+        <div class="evtags"><span class="tag">Webinar</span><span class="tag">Retour client · Retail</span><span class="tag">Databricks Apps</span></div>
+        <h3>Decathlon&nbsp;: l'IA au service de la performance terrain</h3>
+        <p class="evwhat">Retour d'expérience <b>Decathlon</b>&nbsp;: comment leurs équipes ont bâti une application décisionnelle nouvelle génération sur Databricks — <b>KPI temps réel</b>, analyse commerciale intelligente, <b>root cause analysis</b> par IA et IA conversationnelle — pour décider plus vite sur le terrain, avec Databricks Apps.</p>
+        <div class="evmeta">
+          <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b>11h00 – 11h30</b></div>
+          <div><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>En ligne · virtuel</div>
+          <div><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>Finance · store managers · décideurs métier</div>
+        </div>
+        <a class="evcta" href="https://events.databricks.com/FY27Q3-SD-DecathlonDatabricksApps" target="_blank" rel="noopener">Je m'inscris au webinar →</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- PARCOURS 02 — Guerric -->
+<section class="parcours" id="p2">
+  <div class="phead rv">
+    <div class="num">02</div>
+    <div>
+      <div class="idx">Parcours 02</div>
+      <h2>Guerric Tessier</h2>
+      <div class="pr">Directeur applicatif &amp; reporting métier</div>
+    </div>
+  </div>
+  <div class="evlist">
+
+    <article class="ev rv d1">
+      <div class="evdatebox"><span class="dnum">24</span><span class="dmon">Sept.</span></div>
+      <div>
+        <div class="evtags"><span class="tag">Webinar</span><span class="tag">Retour client · Retail</span><span class="tag">Databricks Apps</span></div>
+        <h3>Decathlon&nbsp;: l'IA au service de la performance terrain</h3>
+        <p class="evwhat">Retour d'expérience <b>Decathlon</b>&nbsp;: comment leurs équipes ont bâti une application décisionnelle nouvelle génération sur Databricks — <b>KPI temps réel</b>, analyse commerciale intelligente, <b>root cause analysis</b> par IA et IA conversationnelle — pour décider plus vite sur le terrain, avec Databricks Apps.</p>
+        <div class="evmeta">
+          <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b>11h00 – 11h30</b></div>
+          <div><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>En ligne · virtuel</div>
+          <div><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>Finance · store managers · décideurs métier</div>
+        </div>
+        <a class="evcta" href="https://events.databricks.com/FY27Q3-SD-DecathlonDatabricksApps" target="_blank" rel="noopener">Je m'inscris au webinar →</a>
+      </div>
+    </article>
+
+    <article class="ev rv d1">
+      <div class="evdatebox"><span class="dnum">29</span><span class="dmon">Sept.</span></div>
+      <div>
+        <div class="evtags"><span class="tag">Retour client</span><span class="tag">Sans code</span><span class="tag limited">Places limitées</span></div>
+        <h3>Talk Data to Me — avec SPVIE</h3>
+        <p class="evwhat">Retour d'expérience client&nbsp;: comment <b>développer des applications métier sans être technique</b>, grâce à Genie et Databricks Apps. Témoignage de SPVIE, démonstration en direct et échanges — pensé pour les équipes métier.</p>
+        <div class="evmeta">
+          <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b>17h00 – 19h00</b></div>
+          <div><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Présentiel · Paris</div>
+          <div><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>Utilisateurs métier / business</div>
+        </div>
+        <a class="evcta" href="https://events.databricks.com/FY27Q3-SD-TalkDataToMe" target="_blank" rel="noopener">Je m'inscris →</a>
+      </div>
+    </article>
+
+    <article class="ev rv d2">
+      <div class="evdatebox"><span class="dnum">08</span><span class="dmon">Sept.</span></div>
+      <div>
+        <div class="evtags"><span class="tag">Atelier</span><span class="tag">Tous publics</span><span class="tag limited">Places limitées</span></div>
+        <h3>Build a Modern Data Stack with Databricks &amp; Fivetran</h3>
+        <p class="evwhat">Un atelier pratique pour construire, en direct, une <b>stack data moderne</b>&nbsp;: ingestion des données avec Fivetran, puis transformation, analyse et gouvernance sur la Data Intelligence Platform de Databricks. Repartez avec une vision claire de l'architecture cible pour vos projets.</p>
+        <div class="evmeta">
+          <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b>17h30 – 19h30</b></div>
+          <div><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Station F · Databricks Studio (Paris)</div>
+          <div><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>Data Engineers · Data leads · Architectes</div>
+        </div>
+        <a class="evcta" href="https://events.databricks.com/FY27Q3-SD-TheModernDataStack" target="_blank" rel="noopener">Je réserve ma place →</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- PARCOURS 03 — Timothée -->
+<section class="parcours" id="p3">
+  <div class="phead rv">
+    <div class="num">03</div>
+    <div>
+      <div class="idx">Parcours 03</div>
+      <h2>Timothée Real</h2>
+      <div class="pr">Data Manager</div>
+    </div>
+  </div>
+  <div class="evlist">
+
+    <article class="ev rv d1">
+      <div class="evdatebox"><span class="dnum" style="font-size:22px">29-30</span><span class="dmon">Sept.</span></div>
+      <div>
+        <div class="evtags"><span class="tag">Formation en ligne</span><span class="tag">Hands-on</span><span class="tag">EMEA</span></div>
+        <h3>EMEA Learning Festival</h3>
+        <p class="evwhat">Deux matinées de <b>formation virtuelle et hands-on</b>, en parcours par métier&nbsp;: Data Engineering &amp; Lakebase, IA agentique (du prompt à la production), gouvernance &amp; Unity Catalog, et analytics <b>SQL → Genie</b>. Labs pratiques et accompagnement par les experts Databricks — montez vos équipes en compétence sur la plateforme.</p>
+        <div class="evmeta">
+          <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b>9h00 – 13h30 (BST)</b></div>
+          <div><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>En ligne · virtuel</div>
+          <div><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>Data Engineers · Data Scientists · Analysts · Developers</div>
+        </div>
+        <a class="evcta" href="https://www.databricks.com/resources/webinar/emea-learning-festival-september?scid=701Vp000013r4sQIAQ&amp;utm_medium=sales&amp;utm_source=databricks" target="_blank" rel="noopener">Je m'inscris à la formation →</a>
+      </div>
+    </article>
+
+    <article class="ev rv d1">
+      <div class="evdatebox"><span class="dnum">08</span><span class="dmon">Sept.</span></div>
+      <div>
+        <div class="evtags"><span class="tag">Atelier</span><span class="tag">Tous publics</span><span class="tag limited">Places limitées</span></div>
+        <h3>Build a Modern Data Stack with Databricks &amp; Fivetran</h3>
+        <p class="evwhat">Un atelier pratique pour construire, en direct, une <b>stack data moderne</b>&nbsp;: ingestion des données avec Fivetran, puis transformation, analyse et gouvernance sur la Data Intelligence Platform de Databricks. Repartez avec une vision claire de l'architecture cible pour vos projets.</p>
+        <div class="evmeta">
+          <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b>17h30 – 19h30</b></div>
+          <div><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Station F · Databricks Studio (Paris)</div>
+          <div><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>Data Engineers · Data leads · Architectes</div>
+        </div>
+        <a class="evcta" href="https://events.databricks.com/FY27Q3-SD-TheModernDataStack" target="_blank" rel="noopener">Je réserve ma place →</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- PARCOURS 04 — CFO -->
+<section class="parcours" id="p4">
+  <div class="phead rv">
+    <div class="num">04</div>
+    <div>
+      <div class="idx">Parcours 04</div>
+      <h2>Pour votre CFO</h2>
+      <div class="pr">Pour votre équipe finance</div>
+    </div>
+  </div>
+  <div class="evlist">
+
+    <article class="ev rv d1">
+      <div class="evdatebox"><span class="dnum">24</span><span class="dmon">Sept.</span></div>
+      <div>
+        <div class="evtags"><span class="tag">Hackathon hands-on</span><span class="tag">Finance</span><span class="tag limited">Places très limitées</span></div>
+        <h3>Databricks Genie Hackathon for Finance</h3>
+        <p class="evwhat">Une <b>journée hands-on</b> à la Databricks Studio (Station F)&nbsp;: vos équipes Data et Finance prennent en main <b>Genie</b>, l'assistant IA de Databricks, sur des cas Finance concrets — reporting, clôture, analyse de la performance. Encadré par nos experts et notre partenaire Openvalue.</p>
+        <div class="evmeta">
+          <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b>8h30 – 17h00</b></div>
+          <div><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Station F · Databricks Studio (Paris)</div>
+          <div><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>Data teams + Finance / CFO (2 pers. / entreprise)</div>
+        </div>
+        <a class="evcta" href="https://events.databricks.com/FY27Q3-SD-GenieHackathon" target="_blank" rel="noopener">M'inscrire au hackathon →</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="echange">
+  <div class="inner">
+    <div class="kicker rv in" style="color:#A9C7CE;justify-content:center">Votre contact</div>
+    <h2 class="rv">Une séance vous intéresse&nbsp;?</h2>
+    <p class="sub rv">Dites-moi lesquelles et à qui les partager dans vos équipes&nbsp;: je m'occupe des inscriptions et je vous réserve une place.</p>
+    <div class="ccard rv d1">
+      <a class="tp" href="https://www.linkedin.com/in/maeva-traore/" target="_blank" rel="noopener">
+        <span class="avatar">MT</span>
+        <span class="tpn">Maeva Traore</span>
+        <span class="tpr">Account Executive · Databricks</span>
+      </a>
+      <a class="cbtn" href="mailto:maeva.traore@databricks.com">Écrire à Maeva →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <img class="dblogo" src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e4/Databricks_logo.svg/250px-Databricks_logo.svg.png" alt="Databricks" style="height:20px;margin:0 auto 9px" onerror="this.style.display='none'">
+  <div>Databricks × Pathé · Programme de l'automne 2026</div>
+</footer>
+
+<script>
+  var bar=document.getElementById('bar');
+  addEventListener('scroll',function(){
+    var h=document.documentElement,b=document.body;
+    var st=h.scrollTop||b.scrollTop, sh=(h.scrollHeight||b.scrollHeight)-h.clientHeight;
+    bar.style.width=(sh>0?(st/sh*100):0)+'%';
+  },{passive:true});
+  (function(){
+    var els=document.querySelectorAll('.rv');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+    var io=new IntersectionObserver(function(ents){
+      ents.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
+    },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+    els.forEach(function(e){io.observe(e)});
+  })();
+</script>
+</body>
+</html>
